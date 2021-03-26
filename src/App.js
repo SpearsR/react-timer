@@ -1,23 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import React, { useEffect } from 'react'
+
+
+function formatTime(num){
+  if (num === 0){
+    return num;
+  }
+  else if(num < 10){
+    return '0' + num.toString();
+  }
+
+  else {
+    return num.toString();
+  }
+}
 
 function App() {
+  const [time, setTime] = useState(598);
+  const [count, setcount] = useState(false);
+
+  useEffect(() => {
+    if(count){
+      setTimeout(() => {
+        setTime(time +  1);
+      }, 100);
+    if(time >= 600){
+      setTime(0);
+    }
+    }
+  },[time,count]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="timer">
+      <p>{time}</p>
+      <p id="time">{formatTime(1)}:{formatTime(Math.floor(time/10))}.{time%10}</p>
+      <div className="start-stop-box">
+        <span onClick={() => setcount(true)} className="fun-buttons" id="start">Start</span>
+        <span onClick={() => setcount(false)} className="fun-buttons" id="stop">Stop</span>
+      </div>
     </div>
   );
 }
